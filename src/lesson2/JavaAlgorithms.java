@@ -160,7 +160,7 @@ public class JavaAlgorithms {
 
             for (int i = 2; i <= limit; i++)
                 if (prime[i]) {
-                    for (int j = 2; j*i <= limit; j += i)
+                    for (int j = 2; j*i <= limit; j++)
                         prime[i*j] = false;
                     number++;
                 }

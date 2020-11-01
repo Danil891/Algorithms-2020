@@ -133,7 +133,7 @@ abstract class AbstractTaskTests : AbstractFileTests() {
                     -12.6
                     -5.9
                     -2.5
-                    3.5 
+                    3.5
                     5.0
                     6.8
                     11.5
@@ -327,7 +327,6 @@ abstract class AbstractTaskTests : AbstractFileTests() {
                         412
                         12
                         12  
-                        12
                         12
                         12
                     """.trimIndent()
