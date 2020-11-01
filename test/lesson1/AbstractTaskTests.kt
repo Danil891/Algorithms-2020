@@ -321,12 +321,12 @@ abstract class AbstractTaskTests : AbstractFileTests() {
                         781
                         321
                         132
-                        145 
+                        145
                         56
                         412
                         412
                         12
-                        12  
+                        12
                         12
                         12
                     """.trimIndent()

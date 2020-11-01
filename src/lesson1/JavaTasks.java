@@ -115,6 +115,10 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
+
+    //Трудоемкость = O(N)
+    //Ресурсоемкость = O(N)
+    //N - количество строк в inputName
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
 
         Scanner in = new Scanner(System.in);
@@ -169,6 +173,11 @@ public class JavaTasks {
      * 2
      * 2
      */
+
+    //Трудоемкость = O(N)
+    //Ресурсоемкость = O(N)
+    //N - количество строк в inputName
+
     static public void sortSequence(String inputName, String outputName) throws IOException {
         Scanner in = new Scanner(System.in);
         ArrayList<Integer> temp = new ArrayList<>();

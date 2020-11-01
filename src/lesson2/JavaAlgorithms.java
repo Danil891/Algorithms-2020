@@ -104,6 +104,10 @@ public class JavaAlgorithms {
      * Если имеется несколько самых длинных общих подстрок одной длины,
      * вернуть ту из них, которая встречается раньше в строке first.
      */
+
+    //Трудоемкость = O(N^2)
+    //Ресурсоемкость = O(N^2)
+
     static public String longestCommonSubstring(String firs, String second) {
 
         int maxRep = 0;
@@ -152,6 +156,10 @@ public class JavaAlgorithms {
      * Справка: простым считается число, которое делится нацело только на 1 и на себя.
      * Единица простым числом не считается.
      */
+
+    //Трудоемкость = O(limit*log(log(limit)))
+    //Ресурсоемкость = O(limit)
+
     static public int calcPrimesNumber(int limit) {
         int number = 0;
         if (limit > 1) {
