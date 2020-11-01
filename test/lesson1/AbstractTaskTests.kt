@@ -119,6 +119,37 @@ abstract class AbstractTaskTests : AbstractFileTests() {
             File("temp.txt").delete()
         }
 
+        try {
+            sortTemperatures("input/temp_in2.txt", "temp.txt")
+            assertFileContent(
+                "temp.txt",
+                """
+                    -103.4
+                    -100.2
+                    -98.4
+                    -98.4
+                    -32.1
+                    -23.2
+                    -12.6
+                    -5.9
+                    -2.5
+                    3.5 
+                    5.0
+                    6.8
+                    11.5
+                    23.4
+                    36.1
+                    36.6
+                    45.3
+                    50.5
+                    100.3
+                """.trimIndent()
+            )
+        } finally {
+            File("temp.txt").delete()
+        }
+
+
         fun testGeneratedTemperatures(size: Int): PerfResult<Unit> {
             try {
                 val res = generateTemperatures(size)
@@ -277,6 +308,34 @@ abstract class AbstractTaskTests : AbstractFileTests() {
         } finally {
             File("temp.txt").delete()
         }
+
+        try {
+            sortSequence("input/seq_in6.txt", "temp.txt")
+            assertFileContent(
+                "temp.txt",
+                """
+                        71
+                        81
+                        99
+                        227
+                        781
+                        321
+                        132
+                        145 
+                        56
+                        412
+                        412
+                        12
+                        12  
+                        12
+                        12
+                        12
+                    """.trimIndent()
+            )
+        } finally {
+            File("temp.txt").delete()
+        }
+
 
         fun testGeneratedSequence(totalSize: Int, answerSize: Int): PerfResult<Unit> {
             try {

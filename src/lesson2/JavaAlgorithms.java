@@ -3,6 +3,13 @@ package lesson2;
 import kotlin.NotImplementedError;
 import kotlin.Pair;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.lang.StrictMath.*;
+
 @SuppressWarnings("unused")
 public class JavaAlgorithms {
     /**
@@ -98,7 +105,41 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      */
     static public String longestCommonSubstring(String firs, String second) {
-        throw new NotImplementedError();
+
+        int maxRep = 0;
+        int last = 0;
+        int lFirs = firs.length();
+        int lSecond = second.length();
+        int[][] matrix = new int[lFirs][lSecond];
+
+
+        for (int i = 0; i < lFirs; i++) { //заполнение матрицы
+            for (int j = 0; j < lSecond; j++) {
+                if (firs.charAt(i) == second.charAt(j)) {
+                    if (i == 0 || j == 0) {
+                        matrix[i][j] = 1;
+                    } else {
+                        matrix[i][j] = matrix[i - 1][j - 1] + 1;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < lFirs; i++) {
+            for (int j = 0; j < lSecond; j++) {
+                if (matrix[i][j] > maxRep) {
+                    last = i;
+                    maxRep = matrix[i][j];
+                }
+            }
+        }
+
+        int start = last - maxRep + 1;
+        int end = last + 1;
+        return firs.substring(start, end);
+
+
+
     }
 
     /**
@@ -112,6 +153,22 @@ public class JavaAlgorithms {
      * Единица простым числом не считается.
      */
     static public int calcPrimesNumber(int limit) {
-        throw new NotImplementedError();
+        int number = 0;
+        if (limit > 1) {
+            boolean prime[] = new boolean[limit + 1];
+            Arrays.fill(prime, true);
+
+            for (int i = 2; i <= limit; i++)
+                if (prime[i]) {
+                    for (int j = 2; j*i <= limit; j += i)
+                        prime[i*j] = false;
+                    number++;
+                }
+            }
+            return number;
+        }
+
     }
-}
+
+
+

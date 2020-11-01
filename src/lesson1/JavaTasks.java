@@ -2,6 +2,20 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import static java.lang.Math.abs;
+import static lesson1.Sorts.countingSort;
+
 @SuppressWarnings("unused")
 public class JavaTasks {
     /**
@@ -35,6 +49,9 @@ public class JavaTasks {
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
     static public void sortTimes(String inputName, String outputName) {
+
+
+
         throw new NotImplementedError();
     }
 
@@ -98,8 +115,29 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortTemperatures(String inputName, String outputName) throws IOException {
+
+        Scanner in = new Scanner(System.in);
+        ArrayList<Integer> temp = new ArrayList<>();
+        ArrayList<String> reader = new ArrayList<>();
+        reader.addAll(Files.readAllLines((Paths.get(inputName))));
+
+        for (String element: reader) {
+            temp.add((int) (Double.parseDouble(element) * 10 + 2730));
+        }
+        int[] ans = new int[temp.size()];
+        for (int i = 0; i< temp.size(); i++){
+            ans[i] = temp.get(i);
+        }
+
+        ans = countingSort( ans , 2730 + 5000);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(outputName)));
+        for ( int element : ans ){
+            if ((element - 2730 ) % 10 >= 0) writer.write((element - 2730) /10 + "." + abs(element - 2730) % 10);
+            else writer.write("-" + abs(element - 2730) /10 + "." + abs(element - 2730) % 10);
+            writer.newLine();
+        }
+        writer.close();
     }
 
     /**
@@ -131,8 +169,47 @@ public class JavaTasks {
      * 2
      * 2
      */
-    static public void sortSequence(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortSequence(String inputName, String outputName) throws IOException {
+        Scanner in = new Scanner(System.in);
+        ArrayList<Integer> temp = new ArrayList<>();
+        ArrayList<String> reader = new ArrayList<>();
+        int maxRep = 0;
+        int rep = 0;
+        Integer elem;
+        HashMap<Integer, Integer> digitals = new HashMap<>();
+        reader.addAll(Files.readAllLines((Paths.get(inputName))));
+
+        for( String element: reader){
+            elem = Integer.parseInt(element);
+            temp.add(elem);
+            if (!digitals.containsKey(elem))  digitals.put(elem, 1);
+            else digitals.put(elem, digitals.get(elem) + 1);
+
+            if ((elem < maxRep) && digitals.get(elem).equals(rep)
+                    || digitals.get(elem) > rep ) {
+                rep = digitals.get(elem);
+                maxRep = elem;
+            }
+        }
+
+        ArrayList<Integer> firstDig = new ArrayList<>();
+        ArrayList<Integer> repDig = new ArrayList<>();
+
+        for (String element: reader){
+            elem = Integer.parseInt(element);
+            if (elem == maxRep) repDig.add(elem);
+            else firstDig.add(elem);
+        }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(outputName)));
+        for (Integer element: firstDig){
+            writer.write(element.toString());
+            writer.newLine();
+        }
+        for (Integer element: repDig){
+            writer.write(element.toString());
+            writer.newLine();
+        }
+        writer.close();
     }
 
     /**

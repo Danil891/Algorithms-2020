@@ -99,10 +99,53 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
      *
      * Средняя
      */
+    //Ресурсоемкость = O(1) = const
+    //Трудоемкость = O(logh) - лучший случай
+    //Трудоемкость = O(h)    - худший случай
+    //h - Высота дерева
+
+    private Node<T> rem(Node<T> current, T removeValue) {
+
+        int comparison = removeValue.compareTo(current.value);
+
+        if (comparison > 0) {
+            current.right = rem(current.right, removeValue);
+            return current;
+        }
+
+        if (comparison < 0) {
+            current.left = rem(current.left, removeValue);
+            return current;
+        }
+
+        if (current.right == null && current.left == null) return null; // узел удаляется
+        if (current.right == null) return current.left; // замена узла левым потомком
+        if (current.left == null) return current.right; // замена узла правым потомком
+
+        Node<T> tempNode = current.right;
+
+        while (tempNode.left != null) tempNode = tempNode.left; // минимальный элемента в правом поддереве
+        Node<T> minNode = new Node<>(tempNode.value);
+        minNode.left = current.left;
+        minNode.right = current.right;
+        current = minNode;
+        current.right = rem(current.right, current.value);
+        return current;
+    }
+
+    //Ресурсоемкость = O(1) = const
+    //Трудоемкость = O(logh) - лучший случай
+    //Трудоемкость = O(h)    - худший случай
+    //h - Высота дерева
+
     @Override
     public boolean remove(Object o) {
-        // TODO
-        throw new NotImplementedError();
+        if (!contains(o)) return false; // нtn элемента
+        if (root == null) return false; //пустой корень
+        T removeValue = (T) o;          //значение удаляемого узла
+        root = rem(root, removeValue);
+        size--;
+        return true;
     }
 
     @Nullable
@@ -118,9 +161,18 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
     }
 
     public class BinarySearchTreeIterator implements Iterator<T> {
+        private Stack<Node<T>> nodeStack = new Stack<>();
+        Node<T> currentNode;
+
+        private void addLeftBranch(Node<T> n) { // складывает узлы вниз и налево
+            if (n != null) {
+                nodeStack.push(n);
+                addLeftBranch(n.left);
+            }
+        }
 
         private BinarySearchTreeIterator() {
-            // Добавьте сюда инициализацию, если она необходима.
+            addLeftBranch(root);
         }
 
         /**
@@ -133,10 +185,12 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          *
          * Средняя
          */
+
+        //Трудоемкость = O(1) = const
+        //Ресурсоемкость = O(1) = const
         @Override
         public boolean hasNext() {
-            // TODO
-            throw new NotImplementedError();
+            return !nodeStack.isEmpty();
         }
 
         /**
@@ -152,10 +206,18 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          *
          * Средняя
          */
+        //Ресурсоемкость = O(1)
+        //Трудоемкость = O(n)
+        //n - количество узлов
         @Override
         public T next() {
-            // TODO
-            throw new NotImplementedError();
+            if (!hasNext()) throw new NoSuchElementException();
+
+            currentNode = nodeStack.pop();
+            Node<T> workOutNode = currentNode;
+
+            addLeftBranch(workOutNode.right);
+            return workOutNode.value;
         }
 
         /**
@@ -170,10 +232,13 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          *
          * Сложная
          */
+        // трудоемкость - O(N) - в худшем случае, O(logN) - в лучшем случае, где N - высота дерева
+        // ресурсоемкость - O(1) = const
         @Override
         public void remove() {
-            // TODO
-            throw new NotImplementedError();
+            if (currentNode == null) throw new IllegalStateException();
+            BinarySearchTree.this.remove(currentNode.value);
+            currentNode = null;
         }
     }
 
